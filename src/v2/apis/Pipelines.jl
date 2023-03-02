@@ -67,8 +67,7 @@ function create_yaml_pipeline(
         "skip_queued_branch_builds" => :skip_queued_branch_builds,
         "skip_queued_branch_builds_filter" => :skip_queued_branch_builds_filter,
         "teams" => :teams,
-        "visibility" => :visibility
-    )
+        "visibility" => :visibility)
     body = Dict(
         "name" => name,
         "repository" => repository,

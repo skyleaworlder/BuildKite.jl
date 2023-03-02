@@ -24,4 +24,12 @@ export list_pipelines, get_pipeline,
     create_yaml_pipeline, update_pipeline, delete_pipeline,
     archive_pipeline, unarchive_pipeline
 
+include("apis/Builds.jl")
+export list_all_builds, list_builds_of_organization, list_all_builds,
+    get_build, create_build, cancel_build, rebuild_build
+
+include("apis/Jobs.jl")
+export retry_job, unblock_job, get_job_env
+    get_job_log_output, delete_job_log_output
+
 end # module v2
