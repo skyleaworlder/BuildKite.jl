@@ -43,27 +43,29 @@ function buildkite_common_request(
         query = Dict{String,String}(),
         auth_info = DummyAuth(), headers = Dict{String,String}(),
         body = Dict()
-    )
+    )::HTTP.Response
     append_auth_info!(headers, auth_info)
     resource_path = concat_resource_path_template(api, endpoint)
     print(headers, auth_info)
     if http_method == HTTP.get
-        req = HTTP.get(URI(resource_path, query = query), headers)
+        resp = HTTP.get(URI(resource_path, query = query), headers)
     else
-        req = http_method(resource_path, headers, JSON.json(body))
+        resp = http_method(resource_path, headers, JSON.json(body))
     end
-    return req
+    return resp
 end
 
 
-buildkite_get(api::BuildKiteAPI; endpoint = "", options...) = buildkite_common_request(api, HTTP.get, endpoint; options...)
-buildkite_post(api::BuildKiteAPI; endpoint = "", options...) = buildkite_common_request(api, HTTP.post, endpoint; options...)
-buildkite_put(api::BuildKiteAPI; endpoint = "", options...) = buildkite_common_request(api, HTTP.put, endpoint; options...)
-buildkite_delete(api::BuildKiteAPI; endpoint = "", options...) = buildkite_common_request(api, HTTP.delete, endpoint; options...)
+buildkite_get(api::BuildKiteAPI; endpoint = "", options...)::HTTP.Response = buildkite_common_request(api, HTTP.get, endpoint; options...)
+buildkite_post(api::BuildKiteAPI; endpoint = "", options...)::HTTP.Response = buildkite_common_request(api, HTTP.post, endpoint; options...)
+buildkite_put(api::BuildKiteAPI; endpoint = "", options...)::HTTP.Response = buildkite_common_request(api, HTTP.put, endpoint; options...)
+buildkite_delete(api::BuildKiteAPI; endpoint = "", options...)::HTTP.Response = buildkite_common_request(api, HTTP.delete, endpoint; options...)
+buildkite_patch(api::BuildKiteAPI; endpoint = "", options...)::HTTP.Response = buildkite_common_request(api, HTTP.patch, endpoint; options...)
 
-get_respoonse_body_in_json(req::HTTP.Message) = JSON.parse(HTTP.payload(req, String))
+get_respoonse_body_in_json(resp::HTTP.Response) = JSON.parse(HTTP.payload(resp, String))
 
 buildkite_get_json(api::BuildKiteAPI; endpoint = "", options...) = get_respoonse_body_in_json(buildkite_get(api; endpoint, options...))
 buildkite_post_json(api::BuildKiteAPI; endpoint = "", options...) = get_respoonse_body_in_json(buildkite_post(api; endpoint, options...))
 buildkite_put_json(api::BuildKiteAPI; endpoint = "", options...) = get_respoonse_body_in_json(buildkite_put(api; endpoint, options...))
 buildkite_delete_json(api::BuildKiteAPI; endpoint = "", options...) = get_respoonse_body_in_json(buildkite_delete(api; endpoint, options...))
+buildkite_patch_json(api::BuildKiteAPI; endpoint = "", options...) = get_respoonse_body_in_json(buildkite_patch(api; endpoint, options...))

@@ -19,4 +19,9 @@ export hello_world
 include("apis/Organizations.jl")
 export list_organization, get_organization_by_name
 
+include("apis/Pipelines.jl")
+export list_pipelines, get_pipeline,
+    create_yaml_pipeline, update_pipeline, delete_pipeline,
+    archive_pipeline, unarchive_pipeline
+
 end # module v2
