@@ -81,6 +81,8 @@ end
 """
     create_build
 
+TODO: need tested.
+
 used to create a build using a specific pipeline under the given organization.
 
 ```sh
